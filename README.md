@@ -38,6 +38,8 @@ Comprehensive descriptive analysis of participant characteristics:
 - **Previous Experience**: Prior citizen science participation (Yes/No)
 - **Active Participation**: Whether participants contributed traps (Yes/No)
 
+![Demographic Summary](results/plots/demographic_summary_combined.png)
+
 **Key Files:**
 
 - `results/tables/sociodemographic_analysis.csv` - Complete demographic statistics
@@ -65,6 +67,8 @@ Creation and validation of motivation indices based on established frameworks:
 - `results/plots/motivation_boxplots.pdf|png` - Distribution visualizations
 - `results/plots/motivation_means_barplot.pdf|png` - Mean scores comparison
 
+![Motivation Scales Distribution](results/plots/motivation_boxplots.png)
+
 ### **3. Reliability Analysis**
 
 Cronbach's alpha reliability assessment for motivation subscales:
@@ -83,6 +87,8 @@ Cronbach's alpha reliability assessment for motivation subscales:
 
 - `results/tables/reliability_analysis.csv` - Complete reliability statistics
 - `results/plots/reliability_analysis.pdf|png` - Visual reliability assessment
+
+![Reliability Analysis](results/plots/reliability_analysis.png)
 
 ### **4. Descriptive Statistics**
 
@@ -107,6 +113,8 @@ Advanced statistical analysis procedures:
 - `results/tables/motivation_pairwise_tests.csv` - Significant pairwise differences
 - `results/tables/motivation_correlations.csv` - Correlation matrix
 - `results/plots/motivation_correlation_plot.pdf|png` - Visual correlation matrix
+
+![Motivation Correlations](results/plots/motivation_correlation_plot.png)
 
 ### **6. Engagement Analysis**
 
@@ -275,24 +283,6 @@ source("scripts/clean_survey_analysis.R")
 
 ---
 
-## 🔍 Quality Control
-
-### **Validation Checklist**
-
-The analysis includes automated validation of all required components:
-
-- ✅ **Sociodemographic Analysis** (6 variables)
-- ✅ **Motivation Scale Indices** (6 indices + overall)
-- ✅ **Reliability Analysis** (5 subscales)
-- ✅ **Descriptive Statistics** (comprehensive)
-- ✅ **Engagement Analysis** (3 components)
-- ✅ **Final Questions** (3 categories)
-- ✅ **Noteworthy Findings** (extracted)
-
-**Overall Completion Rate**: 87.5% (21/24 checks passed)
-
----
-
 ## 📚 References & Methodology
 
 ### **Theoretical Framework**
@@ -314,37 +304,6 @@ The analysis includes automated validation of all required components:
 - **Version Control**: Git-tracked analysis pipeline
 - **Environment Documentation**: Complete package version logging
 - **Data Validation**: Automated checks for data integrity
-
----
-
-## 👥 Contact & Support
-
-### **Analysis Team**
-
-- **Lead Analyst**: [Your Name]
-- **Institution**: [Your Institution]
-- **Project**: ViennaCityFly Citizen Science Survey
-
-### **Technical Support**
-
-For questions about the analysis methodology, data interpretation, or technical implementation:
-
-1. **Check Documentation**: Review this README and script comments
-2. **Validation Results**: Examine `analysis_validation_checklist.csv`
-3. **Error Logs**: Check R console output for diagnostic information
-4. **Contact**: [Your contact information]
-
----
-
-## 📄 License & Citation
-
-### **Data Usage**
-
-This analysis is part of the ViennaCityFly project. Please cite appropriately when using results or methodology.
-
-### **Software**
-
-Analysis pipeline developed using open-source R packages. All visualizations use colorblind-accessible palettes and follow best practices for scientific publication.
 
 ---
 

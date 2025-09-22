@@ -1,0 +1,6 @@
+".y.","group1","group2","n1","n2","p","p.signif","p.adj","p.adj.signif","significance"
+"Score","CommOrg_idx","SM_idx",59,59,5.19e-06,"****",7.78e-05,"****","***"
+"Score","CS_idx","SM_idx",59,59,0.00326,"**",0.0489,"*","*"
+"Score","NCV_idx","SM_idx",59,59,2.02e-05,"****",0.000303,"***","***"
+"Score","CommOrg_idx","SPR_extra",59,59,0.000834,"***",0.0125,"*","*"
+"Score","NCV_idx","SPR_extra",59,59,0.00236,"**",0.0354,"*","*"

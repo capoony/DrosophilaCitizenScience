@@ -1,0 +1,7 @@
+"Variable","Label","N","Mean","SD","Min","Max","Median"
+"NCV_idx","Nature Conservation Values",59,4.244,0.664,1.4,5,4.2
+"SM_idx","Social Motives",59,3.565,0.993,1.333,5,3.667
+"SPR_idx","Sociopolitical Responsibility",59,3.893,0.948,1,5,4
+"CS_idx","Citizen Science",59,4.031,0.718,2,5,4.2
+"CommOrg_idx","Communication & Organisation",59,4.292,0.526,3,5,4.5
+"SPR_extra","Curiosity to Learn More",59,3.763,1.119,1,5,4

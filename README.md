@@ -80,6 +80,8 @@ Creation and validation of motivation indices based on established psychological
 **Key Files:**
 
 - `results/tables/motivation_descriptives.csv` - Descriptive statistics for all scales
+- `results/tables/motivation_statistical_results.txt` - Complete ANOVA and post-hoc analysis
+- `results/tables/motivation_pairwise_tests.csv` - Significant pairwise differences
 - `results/plots/motivation_boxplots.pdf|png` - Distribution visualizations
 - `results/plots/motivation_means_barplot.pdf|png` - Mean scores comparison
 
@@ -121,17 +123,32 @@ Comprehensive descriptive analysis including:
 - **Sample Sizes**: Valid responses per scale
 - **Distribution Characteristics**: Boxplots with outlier identification
 
-### **5. Statistical Testing**
+### **5. Statistical Testing** 🔬
 
-Advanced statistical analysis procedures:
+Comprehensive statistical analysis procedures with effect size calculations:
 
-- **ANOVA**: Between-group differences in motivation scales
+#### **Motivation Scales Analysis:**
+
+- **One-way ANOVA**: F(5, 348) = 6.408, p < 0.001
+- **Effect Size**: η² = 0.084 (medium-to-large effect)
 - **Post-hoc Testing**: Bonferroni-corrected pairwise comparisons
+- **Significant Differences**: 5 pairwise comparisons (p < 0.05)
+
+#### **Satisfaction Analysis:**
+
+- **One-sample t-test**: Against neutral midpoint (3.0)
+- **Distribution Analysis**: Boxplot with outlier detection
+- **Descriptive Statistics**: Central tendency and variability measures
+
+#### **Additional Analyses:**
+
 - **Correlation Analysis**: Inter-scale relationships
-- **Significance Testing**: p-values for all correlations
+- **Significance Testing**: Corrected p-values for multiple comparisons
 
 **Key Files:**
 
+- `results/tables/motivation_statistical_results.txt` - Complete ANOVA analysis with interpretation
+- `results/tables/contentment_statistical_results.txt` - Complete satisfaction analysis
 - `results/tables/motivation_pairwise_tests.csv` - Significant pairwise differences
 - `results/tables/motivation_correlations.csv` - Correlation matrix
 - `results/plots/motivation_correlation_plot.pdf|png` - Visual correlation matrix
@@ -140,23 +157,35 @@ Advanced statistical analysis procedures:
 
 **Figure 4:** Inter-scale correlation matrix showing relationships between motivation dimensions
 
-### **6. Engagement Analysis**
+### **6. Engagement Analysis** 📈
 
-In-depth analysis of participant engagement patterns:
+Comprehensive analysis of participant engagement patterns using both categorical and quantitative approaches:
 
 #### **Engagement Variables:**
 
-- **Impact Assessment**: "Was hat sich durch Ihre Teilnahme an dem Projekt verändert?"
-- **Contentment**: "Wie zufrieden waren Sie insgesamt mit Ihrer Teilnahme an dem Projekt?"
-- **Future Involvement**: "Haben Sie vor, auch weiterhin an Citizen Science Projekten teilzunehmen?"
+- **Impact Assessment**: "Was hat sich durch Ihre Teilnahme an dem Projekt verändert?" *(categorical analysis)*
+- **Overall Satisfaction**: "Wie zufrieden waren Sie insgesamt mit Ihrer Teilnahme an dem Projekt?" *(boxplot analysis)*
+- **Future Involvement**: "Haben Sie vor, auch weiterhin an Citizen Science Projekten teilzunehmen?" *(categorical analysis)*
 
-**Analysis Method**: Comma-separated response analysis for multi-option questions
+#### **Analysis Methods:**
+
+| Variable | Method | Output Type |
+|----------|--------|-------------|
+| **Impact Assessment** | Comma-separated response analysis | Frequency tables |
+| **Overall Satisfaction** | Quantitative boxplot analysis | Statistical distributions |
+| **Future Involvement** | Multi-option categorical analysis | Response categorization |
 
 **Key Files:**
 
 - `results/tables/Impact_Analysis_*.csv` - Detailed impact categorization
-- `results/tables/Contentment_Analysis_*.csv` - Satisfaction analysis
+- `results/tables/contentment_descriptives.csv` - Satisfaction descriptive statistics
+- `results/tables/contentment_statistical_results.txt` - Complete satisfaction analysis
+- `results/plots/contentment_boxplot.pdf|png` - Satisfaction distribution visualization
 - `results/tables/Future_Involvement_*.csv` - Future participation intentions
+
+![Overall Satisfaction Distribution](results/plots/contentment_boxplot.png)
+
+**Figure 5:** Distribution of overall satisfaction scores with project participation
 
 ---
 
@@ -204,6 +233,10 @@ DrosophilaCitizenScience/
 │   ├── tables/                           # CSV data outputs
 │   │   ├── sociodemographic_analysis.csv
 │   │   ├── motivation_descriptives.csv
+│   │   ├── motivation_statistical_results.txt    # Complete ANOVA analysis
+│   │   ├── motivation_pairwise_tests.csv
+│   │   ├── contentment_descriptives.csv
+│   │   ├── contentment_statistical_results.txt   # Complete satisfaction analysis
 │   │   ├── reliability_analysis.csv
 │   │   ├── motivation_correlations.csv
 │   │   ├── noteworthy_findings_summary.csv
@@ -213,6 +246,7 @@ DrosophilaCitizenScience/
 │   │   ├── reliability_analysis.pdf|png
 │   │   ├── motivation_boxplots.pdf|png
 │   │   ├── motivation_means_barplot.pdf|png
+│   │   ├── contentment_boxplot.pdf|png           # Satisfaction distribution
 │   │   ├── motivation_correlation_plot.pdf|png
 │   │   └── [individual plot files]
 │   └── analysis_summary.rds             # Complete analysis summary
@@ -300,9 +334,21 @@ source("scripts/clean_survey_analysis.R")
 
 ### **💡 Engagement Outcomes**
 
-- **📈 Overall Satisfaction**: Extremely high (66.1% rated 5/5, 84.7% rated 4-5/5)
-- **🔄 Future Participation**: 100% plan to continue with citizen science projects
-- **🎯 Project Impact**: Comprehensive positive impact across multiple dimensions
+#### **� Overall Satisfaction Analysis**
+
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| **Mean Satisfaction** | 4.44/5 (SD = 0.93) | Exceptionally high |
+| **Median** | 5.0/5 | Most participants maximally satisfied |
+| **Range** | 1-5 | Full scale utilization |
+| **t-test vs. neutral** | t(58) = 11.85, p < 0.001 | Highly significant above neutral |
+| **95% CI** | [4.20, 4.68] | Consistent high satisfaction |
+
+#### **🔄 Additional Engagement Metrics**
+
+- **Future Participation**: 100% plan to continue with citizen science projects
+- **Project Impact**: Comprehensive positive impact across multiple dimensions
+- **Statistical Significance**: Satisfaction significantly exceeds neutral expectations (p < 0.001)
 
 ### **🚀 Key Recommendations**
 

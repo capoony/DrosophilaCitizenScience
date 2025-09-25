@@ -1,0 +1,76 @@
+MOTIVATION SCALES ANALYSIS - STATISTICAL RESULTS
+================================================
+
+Analysis: Comparison of Motivation Scale Scores
+Scales analyzed: NCV_idx, SM_idx, SPR_idx, CS_idx, CommOrg_idx, SPR_extra
+
+DESCRIPTIVE STATISTICS BY SCALE:
+--------------------------------
+NCV_idx:
+  N = 59
+  Mean = 4.244 (SD = 0.664)
+  Median = 4.2
+  Range = 1.4 - 5
+
+SM_idx:
+  N = 59
+  Mean = 3.565 (SD = 0.993)
+  Median = 3.667
+  Range = 1.33333333333333 - 5
+
+SPR_idx:
+  N = 59
+  Mean = 3.893 (SD = 0.948)
+  Median = 4
+  Range = 1 - 5
+
+CS_idx:
+  N = 59
+  Mean = 4.031 (SD = 0.718)
+  Median = 4.2
+  Range = 2 - 5
+
+CommOrg_idx:
+  N = 59
+  Mean = 4.292 (SD = 0.526)
+  Median = 4.5
+  Range = 3 - 5
+
+SPR_extra:
+  N = 59
+  Mean = 3.763 (SD = 1.119)
+  Median = 4
+  Range = 1 - 5
+
+STATISTICAL TEST:
+----------------
+One-way ANOVA (Between-subjects design)
+F(5, 348) = 6.408
+p-value = 1e-05
+
+INTERPRETATION:
+---------------
+Highly significant differences between motivation scales (p < 0.001)
+
+POST-HOC PAIRWISE COMPARISONS:
+------------------------------
+Method: Bonferroni correction
+Significant differences (p < 0.05):
+
+CommOrg_idx vs SM_idx:
+  p-adjusted = 7.8e-05 ***
+CS_idx vs SM_idx:
+  p-adjusted = 0.0489 *
+NCV_idx vs SM_idx:
+  p-adjusted = 0.000303 ***
+CommOrg_idx vs SPR_extra:
+  p-adjusted = 0.0125 *
+NCV_idx vs SPR_extra:
+  p-adjusted = 0.0354 *
+
+EFFECT SIZE:
+------------
+Eta-squared (η²) = 0.084
+
+Analysis date: 2025-09-25
+

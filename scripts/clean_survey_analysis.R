@@ -749,6 +749,89 @@ if (length(available_motivation_vars) > 0) {
                 write.csv(pairwise_results, "results/tables/motivation_pairwise_tests.csv", row.names = FALSE)
             }
         }
+        
+        # Create comprehensive statistical results text file
+        anova_summary <- summary(anova_result)
+        f_statistic <- anova_summary[[1]][["F value"]][1]
+        df1 <- anova_summary[[1]][["Df"]][1]  # Between groups df
+        df2 <- anova_summary[[1]][["Df"]][2]  # Within groups df
+        
+        motivation_text <- paste0(
+            "MOTIVATION SCALES ANALYSIS - STATISTICAL RESULTS\n",
+            "================================================\n\n",
+            "Analysis: Comparison of Motivation Scale Scores\n",
+            "Scales analyzed: ", paste(unique(motivation_long$Scale), collapse = ", "), "\n\n",
+            "DESCRIPTIVE STATISTICS BY SCALE:\n",
+            "--------------------------------\n"
+        )
+        
+        # Add descriptive statistics for each scale
+        for (scale in unique(motivation_long$Scale)) {
+            scale_data <- motivation_long$Score[motivation_long$Scale == scale]
+            scale_data <- scale_data[!is.na(scale_data)]  # Remove any NA values
+            motivation_text <- paste0(motivation_text,
+                scale, ":\n",
+                "  N = ", length(scale_data), "\n",
+                "  Mean = ", round(mean(scale_data), 3), " (SD = ", round(sd(scale_data), 3), ")\n",
+                "  Median = ", round(median(scale_data), 3), "\n",
+                "  Range = ", min(scale_data), " - ", max(scale_data), "\n\n"
+            )
+        }
+        
+        motivation_text <- paste0(motivation_text,
+            "STATISTICAL TEST:\n",
+            "----------------\n",
+            "One-way ANOVA (Between-subjects design)\n",
+            "F(", df1, ", ", df2, ") = ", round(f_statistic, 3), "\n",
+            "p-value = ", round(anova_p, 6), "\n\n",
+            "INTERPRETATION:\n",
+            "---------------\n",
+            if (anova_p < 0.001) {
+                "Highly significant differences between motivation scales (p < 0.001)"
+            } else if (anova_p < 0.01) {
+                "Very significant differences between motivation scales (p < 0.01)"  
+            } else if (anova_p < 0.05) {
+                "Significant differences between motivation scales (p < 0.05)"
+            } else {
+                "No significant differences between motivation scales (p ≥ 0.05)"
+            }, "\n\n"
+        )
+        
+        # Add post-hoc results if they exist
+        if (anova_p < 0.05 && exists("pairwise_results") && nrow(pairwise_results) > 0) {
+            motivation_text <- paste0(motivation_text,
+                "POST-HOC PAIRWISE COMPARISONS:\n",
+                "------------------------------\n",
+                "Method: Bonferroni correction\n",
+                "Significant differences (p < 0.05):\n\n"
+            )
+            
+            for (i in 1:nrow(pairwise_results)) {
+                row <- pairwise_results[i, ]
+                motivation_text <- paste0(motivation_text,
+                    row$group1, " vs ", row$group2, ":\n",
+                    "  p-adjusted = ", round(row$p.adj, 6), " ", row$significance, "\n"
+                )
+            }
+            motivation_text <- paste0(motivation_text, "\n")
+        } else if (anova_p < 0.05) {
+            motivation_text <- paste0(motivation_text,
+                "POST-HOC TESTS:\n",
+                "No pairwise differences reached significance after Bonferroni correction.\n\n"
+            )
+        }
+        
+        motivation_text <- paste0(motivation_text,
+            "EFFECT SIZE:\n",
+            "------------\n",
+            "Eta-squared (η²) = ", round(anova_summary[[1]][["Sum Sq"]][1] / 
+                                      sum(anova_summary[[1]][["Sum Sq"]], na.rm = TRUE), 3), "\n\n",
+            "Analysis date: ", Sys.Date(), "\n"
+        )
+        
+        # Save statistical results to text file
+        writeLines(motivation_text, "results/tables/motivation_statistical_results.txt")
+        cat("Statistical results saved to: results/tables/motivation_statistical_results.txt\n")
     }
 
     # Create enhanced boxplot
@@ -1000,9 +1083,128 @@ if ("Self-assessed impact: Was hat sich durch Ihre Teilnahme an dem Projekt ver�
     cat("✗ Impact variable not found\n")
 }
 
-# Contentment analysis
-if ("Contentment: Wie zufrieden waren Sie insgesamt mit Ihrer Teilnahme an dem Projekt?" %in% names(survey_data)) {
-    contentment_vars <- analyze_engagement_detailed(survey_data, "Contentment", "Contentment_Analysis")
+# Contentment analysis - Boxplot (similar to motivation analysis)
+contentment_col <- "Contentment: Wie zufrieden waren Sie insgesamt mit Ihrer Teilnahme an dem Projekt?"
+if (contentment_col %in% names(survey_data)) {
+    cat("✓ Contentment analysis - creating boxplot...\n")
+
+    # Extract contentment data
+    contentment_data <- survey_data[[contentment_col]]
+    contentment_data <- contentment_data[!is.na(contentment_data) & contentment_data != ""]
+
+    # Convert to numeric if needed (assuming 1-5 scale)
+    if (is.character(contentment_data)) {
+        contentment_numeric <- as.numeric(contentment_data)
+    } else {
+        contentment_numeric <- contentment_data
+    }
+
+    # Remove any invalid values
+    contentment_numeric <- contentment_numeric[!is.na(contentment_numeric)]
+
+    if (length(contentment_numeric) > 0) {
+        # Create data frame for plotting
+        contentment_df <- data.frame(
+            Score = contentment_numeric,
+            Measure = "Overall Satisfaction"
+        )
+
+        # Calculate descriptive statistics
+        contentment_stats <- data.frame(
+            Measure = "Overall Satisfaction",
+            N = length(contentment_numeric),
+            Mean = round(mean(contentment_numeric), 2),
+            SD = round(sd(contentment_numeric), 2),
+            Median = median(contentment_numeric),
+            Min = min(contentment_numeric),
+            Max = max(contentment_numeric)
+        )
+
+        cat("  N =", contentment_stats$N, "responses\n")
+        cat("  Mean =", contentment_stats$Mean, "(SD =", contentment_stats$SD, ")\n")
+        cat("  Median =", contentment_stats$Median, "\n")
+
+        # Create boxplot similar to motivation analysis
+        p_contentment_boxplot <- ggplot(contentment_df, aes(x = Measure, y = Score, fill = Measure)) +
+            geom_boxplot(alpha = 0.7, outlier.alpha = 0.6) +
+            geom_jitter(width = 0.2, alpha = 0.4, size = 0.8) +
+            theme_bw() +
+            theme(
+                axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+                axis.text.y = element_text(size = 10),
+                axis.title = element_text(size = 12, face = "bold"),
+                plot.title = element_text(size = 14, face = "bold"),
+                plot.subtitle = element_text(size = 11),
+                legend.position = "none"
+            ) +
+            labs(
+                title = "Overall Satisfaction Distribution",
+                subtitle = paste0("Mean = ", contentment_stats$Mean, " (SD = ", contentment_stats$SD, "), N = ", contentment_stats$N),
+                x = "Satisfaction Measure",
+                y = "Score"
+            ) +
+            scale_fill_viridis_d(option = "viridis", begin = 0.1, end = 0.9)
+
+        # Adjust y-axis limits based on data range
+        if (max(contentment_numeric) <= 5) {
+            p_contentment_boxplot <- p_contentment_boxplot + scale_y_continuous(limits = c(1, 5))
+        }
+
+        # Save plots
+        ggsave("results/plots/contentment_boxplot.pdf", p_contentment_boxplot, width = 8, height = 6, dpi = 300)
+        ggsave("results/plots/contentment_boxplot.png", p_contentment_boxplot, width = 8, height = 6, dpi = 300)
+
+        # Statistical testing - One-sample t-test against neutral value
+        scale_midpoint <- if (max(contentment_numeric) <= 5) 3 else max(contentment_numeric)/2
+        t_test_result <- t.test(contentment_numeric, mu = scale_midpoint)
+        
+        cat("  One-sample t-test against neutral value (", scale_midpoint, "):\n")
+        cat("  t =", round(t_test_result$statistic, 3), ", p =", round(t_test_result$p.value, 6), "\n")
+        
+        # Prepare ANOVA-style results text
+        anova_text <- paste0(
+            "CONTENTMENT ANALYSIS - STATISTICAL RESULTS\n",
+            "==========================================\n\n",
+            "Variable: Overall Satisfaction with Project Participation\n",
+            "Question: ", contentment_col, "\n\n",
+            "DESCRIPTIVE STATISTICS:\n",
+            "N = ", contentment_stats$N, "\n",
+            "Mean = ", contentment_stats$Mean, " (SD = ", contentment_stats$SD, ")\n",
+            "Median = ", contentment_stats$Median, "\n",
+            "Range = ", contentment_stats$Min, " - ", contentment_stats$Max, "\n\n",
+            "STATISTICAL TEST:\n",
+            "One-sample t-test against neutral value (", scale_midpoint, ")\n",
+            "t(", contentment_stats$N - 1, ") = ", round(t_test_result$statistic, 3), "\n",
+            "p-value = ", round(t_test_result$p.value, 6), "\n",
+            "95% CI = [", round(t_test_result$conf.int[1], 3), ", ", round(t_test_result$conf.int[2], 3), "]\n\n",
+            "INTERPRETATION:\n",
+            if (t_test_result$p.value < 0.001) {
+                "Highly significant difference from neutral (p < 0.001)"
+            } else if (t_test_result$p.value < 0.01) {
+                "Very significant difference from neutral (p < 0.01)"  
+            } else if (t_test_result$p.value < 0.05) {
+                "Significant difference from neutral (p < 0.05)"
+            } else {
+                "No significant difference from neutral (p ≥ 0.05)"
+            }, "\n",
+            "Mean satisfaction is ", 
+            if (contentment_stats$Mean > scale_midpoint) "above" else "below",
+            " the neutral midpoint.\n\n",
+            "Analysis date: ", Sys.Date(), "\n"
+        )
+        
+        # Save ANOVA results to text file
+        writeLines(anova_text, "results/tables/contentment_statistical_results.txt")
+        cat("  Statistical results saved to: results/tables/contentment_statistical_results.txt\n")
+
+        # Save descriptive statistics
+        write.csv(contentment_stats, "results/tables/contentment_descriptives.csv", row.names = FALSE)
+
+        contentment_vars <- contentment_col
+    } else {
+        cat("✗ No valid contentment data found\n")
+        contentment_vars <- character(0)
+    }
 } else {
     contentment_vars <- character(0)
     cat("✗ Contentment variable not found\n")

@@ -1,0 +1,24 @@
+CONTENTMENT ANALYSIS - STATISTICAL RESULTS
+==========================================
+
+Variable: Overall Satisfaction with Project Participation
+Question: Contentment: Wie zufrieden waren Sie insgesamt mit Ihrer Teilnahme an dem Projekt?
+
+DESCRIPTIVE STATISTICS:
+N = 59
+Mean = 4.44 (SD = 0.93)
+Median = 5
+Range = 1 - 5
+
+STATISTICAL TEST:
+One-sample t-test against neutral value (3)
+t(58) = 11.854
+p-value = 0
+95% CI = [4.197, 4.684]
+
+INTERPRETATION:
+Highly significant difference from neutral (p < 0.001)
+Mean satisfaction is above the neutral midpoint.
+
+Analysis date: 2025-09-25
+
